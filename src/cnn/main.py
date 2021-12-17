@@ -26,14 +26,19 @@ from src.cnn.lib import CharVectorizer, get_metrics
 import resource
 rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
 resource.setrlimit(resource.RLIMIT_NOFILE, (2048, rlimit[1]))
-
+CMU_PHONEMES = ['AA', 'AA0', 'AA1', 'AA2', 'AE', 'AE0', 'AE1', 'AE2', 'AH', 'AH0', 'AH1', 'AH2', 'AO', 'AO0', 'AO1',
+                'AO2', 'AW', 'AW0', 'AW1', 'AW2', 'AY', 'AY0', 'AY1', 'AY2', 'B', 'CH', 'D', 'DH', 'EH', 'EH0', 'EH1',
+                'EH2', 'ER', 'ER0', 'ER1', 'ER2', 'EY', 'EY0', 'EY1', 'EY2', 'F', 'G', 'HH', 'IH', 'IH0', 'IH1', 'IH2',
+                'IY', 'IY0', 'IY1', 'IY2', 'JH', 'K', 'L', 'M', 'N', 'NG', 'OW', 'OW0', 'OW1', 'OW2', 'OY', 'OY0',
+                'OY1', 'OY2', 'P', 'R', 'S', 'SH', 'T', 'TH', 'UH', 'UH0', 'UH1', 'UH2', 'UW', 'UW0', 'UW1', 'UW2',
+                'V', 'W', 'Y', 'Z', 'ZH']
 
 def get_args():
     parser = argparse.ArgumentParser("""Character-level Convolutional Networks for Text Classification (https://arxiv.org/pdf/1509.01626.pdf)""")
     parser.add_argument("--dataset", type=str, default='ag_news')
     parser.add_argument("--model_folder", type=str, default="models/cnn/ag_news")
     parser.add_argument("--data_folder", type=str, default="datasets/ag_news/cnn")
-    parser.add_argument("--alphabet", type=str, default="""abcdefghijklmnopqrstuvwxyz0123456789-,;.!?:'\"/\|_@#$%^&*~`+=<>()[]{}a""")
+    parser.add_argument("--phoneme", type=list, default=CMU_PHONEMES)
     parser.add_argument("--config", type=str, default="small", choices=['small', 'big'])
     parser.add_argument("--maxlen", type=int, default=1014)
     parser.add_argument("--batch_size", type=int, default=128, help="number of example read by the gpu")
@@ -150,16 +155,16 @@ if __name__ == "__main__":
     opt = get_args()
     print("parameters: {}".format(vars(opt)))
 
-    # assert alphabet is made of unique characters
-    if len(opt.alphabet) != len(set(opt.alphabet)):
+    # assert phoneme is made of unique characters
+    if len(opt.phoneme) != len(set(opt.phoneme)):
         dic = {}
-        for c in opt.alphabet:
+        for c in opt.phoneme:
             if c in dic:
                 dic[c] += 1
             else:
                 dic[c] = 1
         out = [k for k in dic if dic[k] > 1]
-        print("{} are duplicates alphabet characters".format(out))
+        print("{} are duplicates phonemes".format(out))
         raise ValueError
         
     os.makedirs(opt.model_folder, exist_ok=True)
@@ -176,7 +181,7 @@ if __name__ == "__main__":
     # check if datasets exis
     all_exist = True if (os.path.exists(tr_path) and os.path.exists(te_path)) else False
 
-    vectorizer = CharVectorizer(alphabet=opt.alphabet, maxlen=opt.maxlen)
+    vectorizer = CharVectorizer(phoneme=opt.phoneme, maxlen=opt.maxlen)
     input_dim = len(vectorizer.char_dict) + 1 # dim = n chars + 1
 
     if not all_exist:
@@ -252,9 +257,9 @@ if __name__ == "__main__":
 
     print("Creating model...")
     if opt.config == 'small':
-        net = CNN(n_classes=n_classes, input_length=opt.maxlen, input_dim=len(opt.alphabet), n_conv_filters=256, n_fc_neurons=1024)
+        net = CNN(n_classes=n_classes, input_length=opt.maxlen, input_dim=len(opt.phoneme), n_conv_filters=256, n_fc_neurons=1024)
     elif opt.config == 'big':
-        net = CNN(n_classes=n_classes, input_length=opt.maxlen, input_dim=len(opt.alphabet), n_conv_filters=1024, n_fc_neurons=2048)
+        net = CNN(n_classes=n_classes, input_length=opt.maxlen, input_dim=len(opt.phoneme), n_conv_filters=1024, n_fc_neurons=2048)
 
     criterion = torch.nn.CrossEntropyLoss()
     net.to(device)

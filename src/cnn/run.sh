@@ -5,7 +5,7 @@ dataset="ag_news"
 
 data_folder="datasets/${dataset}/cnn"
 model_folder="models/cnn/${dataset}"
-alphabet="""abcdefghijklmnopqrstuvwxyz0123456789\"'-,;.!?:@#$%^&*~\`+=<>()[]{}/|_"""
+#alphabet="""abcdefghijklmnopqrstuvwxyz0123456789\"'-,;.!?:@#$%^&*~\`+=<>()[]{}/|_"""
 solver='sgd'
 config='small'
 momentum=0.9
@@ -24,7 +24,7 @@ nthreads=6
 python -m src.cnn.main  --dataset ${dataset} \
                         --model_folder ${model_folder} \
                         --data_folder ${data_folder} \
-                        --alphabet ${alphabet} \
+                        #--alphabet ${alphabet} \
                         --config ${config} \
                         --maxlen ${maxlen} \
                         --batch_size ${batch_size} \

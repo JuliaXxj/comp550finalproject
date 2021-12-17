@@ -4,7 +4,7 @@
         - Ardalan Mehrani <ardalan77400@gmail.com>
 @brief:
 """
-
+import json
 import os
 import torch
 import lmdb
@@ -122,6 +122,7 @@ def train(epoch,net,dataset,device,msg="val/test",optimize=False,optimizer=None,
 
     if scheduler:
         scheduler.step()
+    return dic_metrics
 
 
 def predict(net,dataset,device,msg="prediction"):
@@ -146,6 +147,12 @@ def save(net, path):
     """
     Saves a model's state and it's embedding dic by piggybacking torch's save function
     """
+    # state = {
+    #     'epoch': epoch + initial_epoch,
+    #     'state_dict': net.state_dict(),
+    #     'optimizer': optimizer.state_dict(),
+    #     'loss': avg_loss
+    # }
     dict_m = net.state_dict()
     torch.save(dict_m,path)
 
@@ -279,10 +286,12 @@ if __name__ == "__main__":
         scheduler = torch.optim.lr_scheduler.StepLR(optimizer, opt.lr_halve_interval, gamma=opt.gamma, last_epoch=-1)
 
 
-
+    log={}
     for epoch in range(1, opt.epochs + 1):
-        train(epoch,net, tr_loader, device, msg="training", optimize=True, optimizer=optimizer, scheduler=scheduler, criterion=criterion)
+        epoch_log = train(epoch,net, tr_loader, device, msg="training", optimize=True, optimizer=optimizer, scheduler=scheduler, criterion=criterion)
         train(epoch,net, te_loader, device, msg="testing ", criterion=criterion)
+
+        log[epoch] = epoch_log
 
         if (epoch % opt.snapshot_interval == 0) and (epoch > 0):
             path = "{}/model_epoch_{}".format(opt.model_folder,epoch)
@@ -291,6 +300,15 @@ if __name__ == "__main__":
 
 
     if opt.epochs > 0:
+        with open('./log.txt', 'w') as fp:
+            json.dump(log, fp, indent=4)
         path = "{}/model_epoch_{}".format(opt.model_folder,opt.epochs)
         print("snapshot of model saved as {}".format(path))
+        # state = {
+        #     'state_dict': net.state_dict(),
+        #     'optimizer': optimizer.state_dict(),
+        #     'max_len': opt.maxlen
+        # }
+        dict_m = net.state_dict()
+        # torch.save(state, path)
         save(net, path=path)

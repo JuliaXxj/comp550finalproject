@@ -77,6 +77,7 @@ class CharVectorizer():
             phones = pronouncing.phones_for_word(w)
             if len(phones) != 0:
                 transfered.extend(phones[0].split())
+        return transfered
 
     def get_params(self):
         params = vars(self)

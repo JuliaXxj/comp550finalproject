@@ -57,7 +57,7 @@ class CharVectorizer():
 
         self.phoneme = phoneme
         self.maxlen = maxlen
-        self.char_dict = {k: i for i, k in enumerate(self.phoneme, 1)} # indice zero is reserved to blank and unknown characters
+        self.phoneme_dict = {k: i for i, k in enumerate(self.phoneme, 1)} # indice zero is reserved to blank and unknown characters
 
     def transform(self,sentences):
         """
@@ -67,7 +67,7 @@ class CharVectorizer():
         sequences = []
         for sentence in sentences:
             converted = self.convert_to_cmu(sentence)
-            seq = [self.char_dict.get(ph, 0) for ph in converted[:self.maxlen]]
+            seq = [self.phoneme_dict.get(ph, 0) for ph in converted[:self.maxlen]]
             sequences.append(seq)
         return sequences
 

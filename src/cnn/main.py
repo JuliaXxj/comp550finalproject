@@ -191,7 +191,7 @@ if __name__ == "__main__":
     all_exist = True if (os.path.exists(tr_path) and os.path.exists(te_path)) else False
 
     vectorizer = CharVectorizer(phoneme=opt.phoneme, maxlen=opt.maxlen)
-    input_dim = len(vectorizer.char_dict) + 1 # dim = n chars + 1
+    input_dim = len(vectorizer.phoneme_dict) + 1 # dim = n chars + 1
 
     if not all_exist:
         print("Creating datasets")
@@ -290,7 +290,8 @@ if __name__ == "__main__":
 
     # log={}
     with open('./log_{}.txt'.format(opt.log_msg), 'w') as fp:
-        fp.write("\n")
+        # fp.write("Dataset: {}.".format(opt.dataset))
+        fp.write("parameters: {}\n\n".format(vars(opt)))
     for epoch in range(1, opt.epochs + 1):
         epoch_log = train(epoch,net, tr_loader, device, msg="training", optimize=True, optimizer=optimizer, scheduler=scheduler, criterion=criterion)
         val_epoch_log= train(epoch,net, te_loader, device, msg="testing ", criterion=criterion)
@@ -299,7 +300,7 @@ if __name__ == "__main__":
         with open('./log_{}.txt'.format(opt.log_msg), 'a') as fp:
             fp.write("Epoch: {}. accuracy: {}. logloss: {}. lr: {}\n".format(epoch, epoch_log['accuracy'], epoch_log['logloss'], epoch_log['lr']))
             fp.write("Epoch: {}. val_accuracy: {}. val_logloss: {}.\n\n".format(epoch, val_epoch_log['accuracy'],
-                                                                             val_epoch_log['logloss'], val_epoch_log['lr']))
+                                                                             val_epoch_log['logloss']))
         if (epoch % opt.snapshot_interval == 0) and (epoch > 0):
             path = "{}/model_epoch_{}_{}".format(opt.model_folder,epoch, opt.model_name)
             print("snapshot of model saved as {}".format(path))
@@ -309,13 +310,14 @@ if __name__ == "__main__":
     if opt.epochs > 0:
         # with open('./log_{}.txt'.format(opt.log_msg), 'w') as fp:
         #     json.dump(log, fp, indent=4)
-        path = "{}/model_epoch_{}_{}".format(opt.model_folder,opt.epochs, opt.model_name)
+        path = "{}/final_model_epoch_{}_{}".format(opt.model_folder,opt.epochs, opt.model_name)
         print("snapshot of model saved as {}".format(path))
-        # state = {
-        #     'state_dict': net.state_dict(),
-        #     'optimizer': optimizer.state_dict(),
-        #     'max_len': opt.maxlen
-        # }
+        state = {
+            'config': opt.config,
+            'state_dict': net.state_dict(),
+            'optimizer': optimizer.state_dict(),
+            'max_len': opt.maxlen
+        }
         dict_m = net.state_dict()
         # torch.save(state, path)
         save(net, path=path)

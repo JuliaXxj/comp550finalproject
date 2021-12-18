@@ -37,5 +37,5 @@ python -m src.cnn.main  --dataset ${dataset} \
                         --gamma ${gamma} \
                         --gpuid ${gpuid} \
                         --nthreads ${nthreads} \
-                        --log_msg ${log_msg} \
-                        --model_name ${method_name}
+                        --log_msg='' \
+                        --model_name=''

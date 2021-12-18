@@ -51,6 +51,8 @@ def get_args():
     parser.add_argument("--gamma", type=float, default=0.9)
     parser.add_argument("--gpuid", type=int, default=-1, help="select gpu (-1 if cpu)")
     parser.add_argument("--nthreads", type=int, default=4)
+    parser.add_argument("--model_name", type=str, default="")
+    parser.add_argument("--log_msg", type=str, default="")
     args = parser.parse_args()
     return args
 
@@ -286,23 +288,28 @@ if __name__ == "__main__":
         scheduler = torch.optim.lr_scheduler.StepLR(optimizer, opt.lr_halve_interval, gamma=opt.gamma, last_epoch=-1)
 
 
-    log={}
+    # log={}
+    with open('./log_{}.txt'.format(opt.log_msg), 'w') as fp:
+        fp.write("\n")
     for epoch in range(1, opt.epochs + 1):
         epoch_log = train(epoch,net, tr_loader, device, msg="training", optimize=True, optimizer=optimizer, scheduler=scheduler, criterion=criterion)
-        train(epoch,net, te_loader, device, msg="testing ", criterion=criterion)
+        val_epoch_log= train(epoch,net, te_loader, device, msg="testing ", criterion=criterion)
 
-        log[epoch] = epoch_log
-
+        # log[epoch] = epoch_log
+        with open('./log_{}.txt'.format(opt.log_msg), 'a') as fp:
+            fp.write("Epoch: {}. accuracy: {}. logloss: {}. lr: {}\n".format(epoch, epoch_log['accuracy'], epoch_log['logloss'], epoch_log['lr']))
+            fp.write("Epoch: {}. val_accuracy: {}. val_logloss: {}.\n\n".format(epoch, val_epoch_log['accuracy'],
+                                                                             val_epoch_log['logloss'], val_epoch_log['lr']))
         if (epoch % opt.snapshot_interval == 0) and (epoch > 0):
-            path = "{}/model_epoch_{}".format(opt.model_folder,epoch)
+            path = "{}/model_epoch_{}_{}".format(opt.model_folder,epoch, opt.model_name)
             print("snapshot of model saved as {}".format(path))
             save(net, path=path)
 
 
     if opt.epochs > 0:
-        with open('./log.txt', 'w') as fp:
-            json.dump(log, fp, indent=4)
-        path = "{}/model_epoch_{}".format(opt.model_folder,opt.epochs)
+        # with open('./log_{}.txt'.format(opt.log_msg), 'w') as fp:
+        #     json.dump(log, fp, indent=4)
+        path = "{}/model_epoch_{}_{}".format(opt.model_folder,opt.epochs, opt.model_name)
         print("snapshot of model saved as {}".format(path))
         # state = {
         #     'state_dict': net.state_dict(),

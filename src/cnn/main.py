@@ -51,6 +51,7 @@ def get_args():
     parser.add_argument("--gamma", type=float, default=0.9)
     parser.add_argument("--gpuid", type=int, default=-1, help="select gpu (-1 if cpu)")
     parser.add_argument("--nthreads", type=int, default=4)
+    # parser.add_argument("--preprocess", type=str, default='basic')
     parser.add_argument("--model_name", type=str, default="")
     parser.add_argument("--log_msg", type=str, default="")
     args = parser.parse_args()
@@ -289,7 +290,8 @@ if __name__ == "__main__":
 
 
     # log={}
-    with open('./log_{}.txt'.format(opt.log_msg), 'w') as fp:
+    log_file = './log_{}_{}.txt'.format(opt.dataset, opt.log_msg)
+    with open(log_file, 'w') as fp:
         # fp.write("Dataset: {}.".format(opt.dataset))
         fp.write("parameters: {}\n\n".format(vars(opt)))
     for epoch in range(1, opt.epochs + 1):
@@ -297,7 +299,7 @@ if __name__ == "__main__":
         val_epoch_log= train(epoch,net, te_loader, device, msg="testing ", criterion=criterion)
 
         # log[epoch] = epoch_log
-        with open('./log_{}.txt'.format(opt.log_msg), 'a') as fp:
+        with open(log_file, 'a') as fp:
             fp.write("Epoch: {}. accuracy: {}. logloss: {}. lr: {}\n".format(epoch, epoch_log['accuracy'], epoch_log['logloss'], epoch_log['lr']))
             fp.write("Epoch: {}. val_accuracy: {}. val_logloss: {}.\n\n".format(epoch, val_epoch_log['accuracy'],
                                                                              val_epoch_log['logloss']))

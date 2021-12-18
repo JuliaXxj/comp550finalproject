@@ -5,7 +5,6 @@ dataset="yelp_polarity"
 
 data_folder="datasets/${dataset}/cnn"
 model_folder="models/cnn/${dataset}"
-#alphabet="""abcdefghijklmnopqrstuvwxyz0123456789\"'-,;.!?:@#$%^&*~\`+=<>()[]{}/|_"""
 solver='sgd'
 config='small'
 momentum=0.9
@@ -26,7 +25,6 @@ method_name=''
 python -m src.cnn.main  --dataset ${dataset} \
                         --model_folder ${model_folder} \
                         --data_folder ${data_folder} \
-                        #--alphabet ${alphabet} \
                         --config ${config} \
                         --maxlen ${maxlen} \
                         --batch_size ${batch_size} \

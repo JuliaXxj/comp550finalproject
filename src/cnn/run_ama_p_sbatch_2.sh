@@ -4,7 +4,7 @@
 #SBATCH --time=30:00:00
 #SBATCH --gres=gpu:v100:1
 #SBATCH --mem=16G
-#SBATCH --job-name="ama_p_specchar"
+#SBATCH --job-name="ama_p_specchar_sp"
 
 cd ../..
 

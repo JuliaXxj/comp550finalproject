@@ -3,7 +3,7 @@
 #SBATCH --time=10:00:00
 #SBATCH --gres=gpu:v100:1
 #SBATCH --mem=16G
-#SBATCH --job-name="yelp_p_specchar"
+#SBATCH --job-name="yelp_p_specchar_sp"
 
 cd ../..
 source ../pyvenv/comp550/bin/activate

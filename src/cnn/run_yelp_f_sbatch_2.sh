@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH --account=def-six
-#SBATCH --time=30:00:00
+#SBATCH --time=12:00:00
 #SBATCH --gres=gpu:v100:1
 #SBATCH --mem=16G
 #SBATCH --job-name="yelp_p_specchar"
@@ -19,7 +19,7 @@ gamma=0.9
 lr_halve_interval=15
 maxlen=1014
 batch_size=128
-epochs=100
+epochs=30
 lr=0.01
 snapshot_interval=5
 gpuid=0

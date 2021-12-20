@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH --account=def-six
-#SBATCH --time=30:00:00
+#SBATCH --time=12:00:00
 #SBATCH --gres=gpu:v100:1
 #SBATCH --mem=16G
 #SBATCH --job-name="yelp_p_specchar"

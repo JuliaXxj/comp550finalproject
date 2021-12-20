@@ -178,9 +178,19 @@ if __name__ == "__main__":
     # check if datasets exis
     all_exist = False if (os.path.exists(tr_path) and os.path.exists(te_path)) else False
 
-    vectorizer = CharVectorizer(maxlen=opt.maxlen, no_stress=opt.no_stress, add_space=opt.add_space,
-                                special_character=opt.special_character, spell_check=opt.spell_check, lemma=opt.lemma,
-                                stem=opt.stem)
+    prp_option = {
+        "no_stress": opt.no_stress,
+        "add_space": opt.add_space,
+        "special_character": opt.special_character,
+        "spell_check": opt.spell_check,
+        "lemma": opt.lemma,
+        "stem": opt.stem
+    }
+
+    vectorizer = CharVectorizer(maxlen=opt.maxlen, **prp_option)
+    # vectorizer = CharVectorizer(maxlen=opt.maxlen, no_stress=opt.no_stress, add_space=opt.add_space,
+    #                             special_character=opt.special_character, spell_check=opt.spell_check, lemma=opt.lemma,
+    #                             stem=opt.stem)
     phoneme = vectorizer.phoneme_dict
     input_dim = len(phoneme) + 1  # dim = n chars + 1
     print(input_dim)
@@ -294,7 +304,13 @@ if __name__ == "__main__":
         scheduler = torch.optim.lr_scheduler.StepLR(optimizer, opt.lr_halve_interval, gamma=opt.gamma, last_epoch=-1)
 
     # log={}
-    log_file = './log_{}_{}.txt'.format(opt.dataset, opt.log_msg)
+
+    prp = ''
+    for k in prp_option:
+        if prp_option[k]:
+            prp = prp + k + "_"
+
+    log_file = './log_{}_{}_{}.txt'.format(opt.dataset, prp, opt.log_msg)
     with open(log_file, 'w') as fp:
         # fp.write("Dataset: {}.".format(opt.dataset))
         fp.write("parameters: {}\n\n".format(vars(opt)))

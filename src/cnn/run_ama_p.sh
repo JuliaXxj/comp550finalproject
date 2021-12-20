@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-dataset="yelp_review"
+dataset="amazon_polarity"
 
 data_folder="datasets/${dataset}/cnn"
 model_folder="models/cnn/${dataset}"

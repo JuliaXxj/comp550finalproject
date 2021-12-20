@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-cd ../../
- 
+
 dataset="ag_news"
 
 data_folder="datasets/${dataset}/cnn"
@@ -12,29 +11,37 @@ gamma=0.9
 lr_halve_interval=15
 maxlen=1014
 batch_size=128
-epochs=10
+epochs=100
 lr=0.01
 snapshot_interval=5
 gpuid=0
-nthreads=6
-log_msg=''
-method_name=''
+nthreads=4
+no_stress=false
+add_space=false
+special_character=true
+spell_check=false
+lemma=false
+stem=false
 
 
-python -m src.cnn.main  --dataset ${dataset} \
-                        --model_folder ${model_folder} \
-                        --data_folder ${data_folder} \
-                        --config ${config} \
-                        --maxlen ${maxlen} \
-                        --batch_size ${batch_size} \
-                        --epochs ${epochs} \
-                        --solver ${solver} \
-                        --lr ${lr} \
-                        --lr_halve_interval ${lr_halve_interval} \
-                        --momentum ${momentum} \
-                        --snapshot_interval ${snapshot_interval} \
-                        --gamma ${gamma} \
-                        --gpuid ${gpuid} \
-                        --nthreads ${nthreads} \
-                        --log_msg='' \
-                        --model_name=''
+python -m main  --dataset ${dataset} \
+          --model_folder ${model_folder} \
+          --data_folder ${data_folder} \
+          --config ${config} \
+          --maxlen ${maxlen} \
+          --batch_size ${batch_size} \
+          --epochs ${epochs} \
+          --solver ${solver} \
+          --lr ${lr} \
+          --lr_halve_interval ${lr_halve_interval} \
+          --momentum ${momentum} \
+          --snapshot_interval ${snapshot_interval} \
+          --gamma ${gamma} \
+          --gpuid ${gpuid} \
+          --nthreads ${nthreads} \
+          --no_stress ${no_stress} \
+          --add_space ${add_space} \
+          --special_character ${special_character} \
+          --spell_check ${spell_check} \
+          --lemma ${lemma} \
+          --stem ${stem}

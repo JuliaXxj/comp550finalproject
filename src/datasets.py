@@ -548,5 +548,4 @@ if __name__ == "__main__":
         for sentence, label in tqdm(gen):
             sentences.append(sentence)
             labels.append(label)
-        print(" train: (sentences,labels) = ({}/{})".format(len(sentences), len(labels)))
-
+        print(" test: (sentences,labels) = ({}/{})".format(len(sentences), len(labels)))

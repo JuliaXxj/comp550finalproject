@@ -14,6 +14,7 @@ from tqdm import tqdm
 from urllib.request import urlretrieve
 from urllib.error import URLError
 from urllib.error import HTTPError
+
 # csv.field_size_limit(sys.maxsize)
 maxInt = sys.maxsize
 
@@ -25,7 +26,7 @@ while True:
         csv.field_size_limit(maxInt)
         break
     except OverflowError:
-        maxInt = int(maxInt/10)
+        maxInt = int(maxInt / 10)
 
 DATA_FOLDER = "datasets"
 
@@ -139,12 +140,13 @@ class AgNews(object):
     credit goes to Xiang Zhang:
     https://scholar.google.com/citations?hl=en&user=n4QjVfoAAAAJ&view_op=list_works&sortby=pubdate
     """
+
     def __init__(self):
 
         self.url = "https://s3.amazonaws.com/fast-ai-nlp/ag_news_csv.tgz"
-        self.data_name = os.path.basename(self.url).split(".")[0] # ag_news
+        self.data_name = os.path.basename(self.url).split(".")[0]  # ag_news
         self.data_folder = "{}/{}/raw".format(DATA_FOLDER, self.data_name)
-        self.n_classes = 4        
+        self.n_classes = 4
         self.epoch_size = 5000
 
         # Check if relevant files are in the folder_path
@@ -176,13 +178,14 @@ class DbPedia(object):
     credit goes to Xiang Zhang:
     https://scholar.google.com/citations?hl=en&user=n4QjVfoAAAAJ&view_op=list_works&sortby=pubdate
     """
+
     def __init__(self):
 
         self.url = "https://s3.amazonaws.com/fast-ai-nlp/dbpedia_csv.tgz"
-        self.data_name = os.path.basename(self.url).split(".")[0] # ag_news
+        self.data_name = os.path.basename(self.url).split(".")[0]  # ag_news
         self.data_folder = "{}/{}/raw".format(DATA_FOLDER, self.data_name)
         self.n_classes = 14
-        
+
         self.epoch_size = 5000
 
         # Check if relevant files are in the folder_path
@@ -215,10 +218,11 @@ class YelpReview(object):
     credit goes to Xiang Zhang:
     https://scholar.google.com/citations?hl=en&user=n4QjVfoAAAAJ&view_op=list_works&sortby=pubdate
     """
+
     def __init__(self):
 
         self.url = "https://s3.amazonaws.com/fast-ai-nlp/yelp_review_full_csv.tgz"
-        self.data_name = os.path.basename(self.url).split(".")[0] # ag_news
+        self.data_name = os.path.basename(self.url).split(".")[0]  # ag_news
         self.data_folder = "{}/{}/raw".format(DATA_FOLDER, self.data_name)
         self.n_classes = 5
         self.epoch_size = 5000
@@ -253,12 +257,13 @@ class YelpPolarity(object):
     credit goes to Xiang Zhang:
     https://scholar.google.com/citations?hl=en&user=n4QjVfoAAAAJ&view_op=list_works&sortby=pubdate
     """
+
     def __init__(self):
 
         self.url = "https://s3.amazonaws.com/fast-ai-nlp/yelp_review_polarity_csv.tgz"
-        self.data_name = os.path.basename(self.url).split(".")[0] # ag_news
+        self.data_name = os.path.basename(self.url).split(".")[0]  # ag_news
         self.data_folder = "{}/{}/raw".format(DATA_FOLDER, self.data_name)
-        self.n_classes = 2        
+        self.n_classes = 2
         self.epoch_size = 5000
 
         # Check if relevant files are in the folder_path
@@ -291,10 +296,11 @@ class AmazonReview(object):
     credit goes to Xiang Zhang:
     https://scholar.google.com/citations?hl=en&user=n4QjVfoAAAAJ&view_op=list_works&sortby=pubdate
     """
+
     def __init__(self):
 
         self.url = "https://s3.amazonaws.com/fast-ai-nlp/amazon_review_full_csv.tgz"
-        self.data_name = os.path.basename(self.url).split(".")[0] # ag_news
+        self.data_name = os.path.basename(self.url).split(".")[0]  # ag_news
         self.data_folder = "{}/{}/raw".format(DATA_FOLDER, self.data_name)
         self.n_classes = 5
         self.epoch_size = 30000
@@ -329,10 +335,11 @@ class AmazonPolarity(object):
     credit goes to Xiang Zhang:
     https://scholar.google.com/citations?hl=en&user=n4QjVfoAAAAJ&view_op=list_works&sortby=pubdate
     """
+
     def __init__(self):
 
         self.url = "https://s3.amazonaws.com/fast-ai-nlp/amazon_review_polarity_csv.tgz"
-        self.data_name = os.path.basename(self.url).split(".")[0] # ag_news
+        self.data_name = os.path.basename(self.url).split(".")[0]  # ag_news
         self.data_folder = "{}/{}/raw".format(DATA_FOLDER, self.data_name)
         self.n_classes = 2
         self.epoch_size = 30000
@@ -367,10 +374,11 @@ class SoguNews(object):
     credit goes to Xiang Zhang:
     https://scholar.google.com/citations?hl=en&user=n4QjVfoAAAAJ&view_op=list_works&sortby=pubdate
     """
+
     def __init__(self):
 
         self.url = "https://s3.amazonaws.com/fast-ai-nlp/sogou_news_csv.tgz"
-        self.data_name = os.path.basename(self.url).split(".")[0] # ag_news
+        self.data_name = os.path.basename(self.url).split(".")[0]  # ag_news
         self.data_folder = "{}/{}/raw".format(DATA_FOLDER, self.data_name)
         self.n_classes = 5
         self.epoch_size = 5000
@@ -405,10 +413,11 @@ class YahooAnswer(object):
     credit goes to Xiang Zhang:
     https://scholar.google.com/citations?hl=en&user=n4QjVfoAAAAJ&view_op=list_works&sortby=pubdate
     """
+
     def __init__(self):
 
         self.url = "https://s3.amazonaws.com/fast-ai-nlp/yahoo_answers_csv.tgz"
-        self.data_name = os.path.basename(self.url).split(".")[0] # ag_news
+        self.data_name = os.path.basename(self.url).split(".")[0]  # ag_news
         self.data_folder = "{}/{}/raw".format(DATA_FOLDER, self.data_name)
         self.n_classes = 10
         self.epoch_size = 10000
@@ -442,13 +451,13 @@ class Imdb(object):
     """
     source: http://ai.stanford.edu/~amaas/data/sentiment/
     """
+
     def __init__(self):
 
         self.url = "https://s3.eu-west-2.amazonaws.com/ardalan.mehrani.datasets/imdb.tar.gz"
-        self.data_name = os.path.basename(self.url).split(".")[0] # ag_news
+        self.data_name = os.path.basename(self.url).split(".")[0]  # ag_news
         self.data_folder = "{}/{}/raw".format(DATA_FOLDER, self.data_name)
         self.n_classes = 2
-        
 
         # Check if relevant files are in the folder_path
         if os.path.exists(self.data_folder):
@@ -524,7 +533,7 @@ if __name__ == "__main__":
     for name in names:
         print("name: {}".format(name))
         dataset = load_datasets(names=[name])[0]
-        
+
         # train data generator
         gen = dataset.load_train_data()
         sentences, labels = [], []
@@ -540,3 +549,4 @@ if __name__ == "__main__":
             sentences.append(sentence)
             labels.append(label)
         print(" train: (sentences,labels) = ({}/{})".format(len(sentences), len(labels)))
+

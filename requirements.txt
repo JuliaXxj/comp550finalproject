@@ -6,3 +6,7 @@ torchvision
 requests
 tqdm
 lmdb
+pyspellchecker
+spellchecker
+pronouncing
+nltk

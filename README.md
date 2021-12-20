@@ -1,25 +1,32 @@
 # COMP550 Final Project
+This project uses the character-level CNN implemented [here](https://github.com/ArdalanM/nlp-benchmarks) based on proposed in <em>Character-level convolutional networks for text classification</em>([paper](https://arxiv.org/abs/1509.01626)) as baseline.
 
-To install English-To-IPA:  
-1. Run `cd English-to-IPA`, i.e. make sure you are under the `English-to-IPA` directory.
-2. Run `python -m pip install .` in the same directory as `setup.py`, i.e. `English-to-IPA` directory.  
-
-See details [here](https://github.com/mphilli/English-to-IPA).
 
 ## Dataset
-https://github.com/zhangxiangxiao/Crepe
-code in Torch 7 for text classification from character-level using convolutional networks. 
-Xiang Zhang, Junbo Zhao, Yann LeCun. Character-level Convolutional Networks for Text Classification. Advances in Neural Information Processing Systems 28 (NIPS 2015) 
+To download all the datasets, after cloning the repo, under the  `comp550finalproject` directory run
 
-https://course.fast.ai/datasets
+```
+python -m src.cnn.datasets
+```
 
+- English dataset:  
+https://course.fast.ai/datasets#nlp  
 https://github.com/niderhoff/nlp-datasets
 
-## Paper
-https://www.overleaf.com/5178243135dpbfmvzgkzmr
-
-
-## convert to pinyin
-https://www.codetd.com/en/article/7158899
-### chinese dataset
+- Chinese dataset:  
 https://metatext.io/datasets-list/chinese-language
+
+
+## Tools
+
+- Covert English to phonemes:  
+http://www.speech.cs.cmu.edu/cgi-bin/cmudict  
+https://pronouncing.readthedocs.io/en/latest/  
+
+
+- Convert Chinese to pinyin:  
+https://www.codetd.com/en/article/7158899
+
+
+## Project Report
+https://www.overleaf.com/5178243135dpbfmvzgkzmr

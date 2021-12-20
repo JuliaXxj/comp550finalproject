@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+cd ../..
 dataset="yelp_review"
 
 data_folder="datasets/${dataset}/cnn"
@@ -24,7 +25,7 @@ lemma=false
 stem=false
 
 
-python -m main  --dataset ${dataset} \
+python -m src.cnn.main  --dataset ${dataset} \
           --model_folder ${model_folder} \
           --data_folder ${data_folder} \
           --config ${config} \

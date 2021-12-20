@@ -225,7 +225,7 @@ if __name__ == "__main__":
         with lmdb.open(tr_path, map_size=1099511627776) as env:
             with env.begin(write=True) as txn:
                 for i, (sentence, label) in enumerate(
-                        tqdm(dataset.load_train_data(), desc="transform train...", total=n_tr_samples)):
+                        tqdm(dataset.load_train_data(), desc="transform train...", total=n_tr_samples, position=0, leave=True)):
                     xtxt = vectorizer.transform([sentence])[0]
                     lab = label
 

@@ -93,7 +93,7 @@ def train(epoch, net, dataset, device, msg="val/test", optimize=False, optimizer
     nclasses = len(list(net.parameters())[-1])
     cm = np.zeros((nclasses, nclasses), dtype=int)
 
-    with tqdm(total=len(dataset), desc="Epoch {} - {}".format(epoch, msg)) as pbar:
+    with tqdm(total=len(dataset), desc="Epoch {} - {}".format(epoch, msg), position=0, leave=True) as pbar:
         for iteration, (tx, ty) in enumerate(dataset):
 
             data = (tx, ty)
@@ -187,10 +187,10 @@ if __name__ == "__main__":
         "stem": opt.stem
     }
 
-    vectorizer = CharVectorizer(maxlen=opt.maxlen, **prp_option)
-    # vectorizer = CharVectorizer(maxlen=opt.maxlen, no_stress=opt.no_stress, add_space=opt.add_space,
-    #                             special_character=opt.special_character, spell_check=opt.spell_check, lemma=opt.lemma,
-    #                             stem=opt.stem)
+    # vectorizer = CharVectorizer(maxlen=opt.maxlen, **prp_option)
+    vectorizer = CharVectorizer(maxlen=opt.maxlen, no_stress=opt.no_stress, add_space=opt.add_space,
+                                special_character=opt.special_character, spell_check=opt.spell_check, lemma=opt.lemma,
+                                stem=opt.stem)
     phoneme = vectorizer.phoneme_dict
     input_dim = len(phoneme) + 1  # dim = n chars + 1
     print(input_dim)
@@ -326,14 +326,14 @@ if __name__ == "__main__":
             fp.write("Epoch: {}. val_accuracy: {}. val_logloss: {}.\n\n".format(epoch, val_epoch_log['accuracy'],
                                                                                 val_epoch_log['logloss']))
         if (epoch % opt.snapshot_interval == 0) and (epoch > 0):
-            path = "{}/model_epoch_{}_{}".format(opt.model_folder, epoch, opt.model_name)
+            path = "{}/model_epoch_{}_{}".format(opt.model_folder, epoch, prp)
             print("snapshot of model saved as {}".format(path))
             save(net, path=path)
 
     if opt.epochs > 0:
         # with open('./log_{}.txt'.format(opt.log_msg), 'w') as fp:
         #     json.dump(log, fp, indent=4)
-        path = "{}/final_model_epoch_{}_{}".format(opt.model_folder, opt.epochs, opt.model_name)
+        path = "{}/final_model_epoch_{}_{}".format(opt.model_folder, opt.epochs, prp)
         print("snapshot of model saved as {}".format(path))
         state = {
             'config': opt.config,
